@@ -26,9 +26,7 @@ final class EmployeeDAOHibernate implements EmployeeDAO {
 	// parameter names for queries
 	private static final String EMPLOYEE_IDS_PARAM = "employee_ids";
 	private static final String OFFICE_IDS_PARAM = "office_ids";
-
-	// number of rows I take from table
-	private static final int EMPLOYEES_NUMBER = 100;
+	private static final String ROWS_NUMBER = "rows_number";
 
 	private EmployeeDAOHibernate() {
 	}
@@ -38,13 +36,13 @@ final class EmployeeDAOHibernate implements EmployeeDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Employee> getEmployees() {
+	public List<Employee> getEmployees(int rowsNumber) {
 		Session session = sessionFactory.getCurrentSession();
 		Transaction tx = session.beginTransaction();
 
 		// get ids of first 100 employees
 		List<Long> employeeIds = session.getNamedQuery(CORRESPOND_EMPLOYEE_IDS)
-				.setMaxResults(EMPLOYEES_NUMBER).list();
+				.setParameter(ROWS_NUMBER, rowsNumber).list();
 		// get id of offices where first 100 employees work
 		List<Long> officeIds = session.getNamedQuery(CORRESPOND_OFFICE_IDS)
 				.setParameterList(EMPLOYEE_IDS_PARAM, employeeIds).list();

@@ -23,6 +23,9 @@ public class EmployeeListServlet extends HttpServlet {
 
 	// attribute name for setting value in session
 	private static final String EMPLOYEES = "employees";
+	
+	// number of rows I take from table
+	private static final int EMPLOYEES_NUMBER = 100;
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -38,8 +41,8 @@ public class EmployeeListServlet extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 			EmployeeDAO employeeDAO = EmployeeDAOFactory
-					.getEmployeeDAO(JDBC);
-			List<Employee> employees = employeeDAO.getEmployees();
+					.getEmployeeDAO(HIBERNATE);
+			List<Employee> employees = employeeDAO.getEmployees(EMPLOYEES_NUMBER);
 			req.getSession(true).setAttribute(EMPLOYEES, employees);
 			String dispatchPath = getServletContext().getInitParameter(
 					DISPATCH_PATH);
