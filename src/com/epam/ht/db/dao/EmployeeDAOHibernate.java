@@ -2,9 +2,12 @@ package com.epam.ht.db.dao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 
 import com.epam.ht.entity.employee.Employee;
 import com.epam.ht.util.SessionFactoryGetter;
@@ -50,8 +53,15 @@ final class EmployeeDAOHibernate implements EmployeeDAO {
 		session.getNamedQuery(CORRESPOND_OFFICES)
 				.setParameterList(OFFICE_IDS_PARAM, officeIds).list();
 		// get employees
-		List<Employee> employees = session.getNamedQuery(EMPLOYEE_LIST)
-				.setParameterList(EMPLOYEE_IDS_PARAM, employeeIds).list();
+		List<Employee> employees = null; /*
+										 * =
+										 * session.getNamedQuery(EMPLOYEE_LIST)
+										 * .setParameterList(EMPLOYEE_IDS_PARAM,
+										 * employeeIds).list();
+										 */
+
+		employees = session.createCriteria(Employee.class)
+				.add(Restrictions.in("id", employeeIds)).list();
 
 		tx.commit();
 		return employees;

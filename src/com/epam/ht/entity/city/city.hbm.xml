@@ -10,6 +10,6 @@
 		</id>
 		<property name="name" column="CITY_NAME" not-null="true" />
 		<many-to-one name="country" class="com.epam.ht.entity.country.Country"
-			column="COUNTRY_ID" />
+			column="COUNTRY_ID" outer-join="true" />
 	</class>
 </hibernate-mapping>

@@ -12,8 +12,8 @@
 		<property name="lastName" column="LAST_NAME" not-null="true" />
 		<many-to-one name="address" column="EMPLOYEE_ID" unique="true"
 			not-null="true" class="com.epam.ht.entity.address.Address" insert="false"
-			update="false" />
-		<map name="jobs" table="OFFICE_EMPLOYEE">
+			update="false" outer-join="true" />
+		<map name="jobs" table="OFFICE_EMPLOYEE" outer-join="true">
 			<key column="EMPLOYEE_ID" />
 			<map-key-many-to-many column="OFFICE_ID"
 				class="com.epam.ht.entity.office.Office" />

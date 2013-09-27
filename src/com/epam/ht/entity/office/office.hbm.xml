@@ -14,8 +14,8 @@
 				= office_id)</formula>
 		</property>
 		<many-to-one name="address" class="com.epam.ht.entity.address.Address"
-			column="ADDRESS_ID" />
+			column="ADDRESS_ID" outer-join="true" />
 		<many-to-one name="company" class="com.epam.ht.entity.company.Company"
-			column="COMPANY_ID" />
+			column="COMPANY_ID" outer-join="true" />
 	</class>
 </hibernate-mapping>
