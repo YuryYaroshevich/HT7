@@ -6,13 +6,13 @@
 <hibernate-mapping package="com.epam.ht.entity.employee">
 	<class name="Employee" table="Employee" lazy="false">
 		<id name="id" column="EMPLOYEE_ID" type="long">
-			<generator class="increment" />
+			<generator class="foreign">
+				<param name="property">address</param>
+			</generator>
 		</id>
 		<property name="firstName" column="FIRST_NAME" not-null="true" />
 		<property name="lastName" column="LAST_NAME" not-null="true" />
-		<many-to-one name="address" column="EMPLOYEE_ID" unique="true"
-			not-null="true" class="com.epam.ht.entity.address.Address" insert="false"
-			update="false" outer-join="true" />
+		<one-to-one name="address" class="com.epam.ht.entity.address.Address" />
 		<map name="jobs" table="OFFICE_EMPLOYEE" outer-join="true">
 			<key column="EMPLOYEE_ID" />
 			<map-key-many-to-many column="OFFICE_ID"
@@ -23,27 +23,12 @@
 		</map>
 	</class>
 
-
 	<sql-query name="query.CorrespondEmployeeIds">
-	    <return-scalar column="employee_id" type="long" />
+		<return-scalar column="employee_id" type="long" />
 	    <![CDATA[select employee_id from yra.employee where rownum <= :rows_number]]>
 	</sql-query>
-	<query name="query.EmployeeList">
-		<![CDATA[from Employee emp inner join fetch emp.jobs          
-		                           inner join fetch emp.address addr
-		                                 inner join fetch addr.city c
-		                                 inner join fetch c.country
-		                       where emp.id in (:employee_ids)]]>
-	</query>
-	<query name="query.CorrespondOffices">
-	    <![CDATA[from Office o inner join fetch o.company
-	                           inner join fetch o.address addr
-		                       inner join fetch addr.city c
-		                       inner join fetch c.country
-	                     where o.id in (:office_ids)]]>
-	</query>
 	<sql-query name="query.CorrespondOfficeIds">
-	    <return-scalar column="office_id" type="long" />
+		<return-scalar column="office_id" type="long" />
 	    <![CDATA[select distinct office_id from yra.office_employee 
 	                           where employee_id in (:employee_ids)]]>
 	</sql-query>

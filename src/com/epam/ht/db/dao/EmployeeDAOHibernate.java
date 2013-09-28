@@ -3,13 +3,14 @@ package com.epam.ht.db.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.epam.ht.entity.employee.Employee;
+import com.epam.ht.entity.office.Office;
 import com.epam.ht.util.SessionFactoryGetter;
 
 final class EmployeeDAOHibernate implements EmployeeDAO {
@@ -22,13 +23,11 @@ final class EmployeeDAOHibernate implements EmployeeDAO {
 
 	// query name
 	private static final String CORRESPOND_EMPLOYEE_IDS = "query.CorrespondEmployeeIds";
-	private static final String EMPLOYEE_LIST = "query.EmployeeList";
-	private static final String CORRESPOND_OFFICES = "query.CorrespondOffices";
 	private static final String CORRESPOND_OFFICE_IDS = "query.CorrespondOfficeIds";
 
 	// parameter names for queries
 	private static final String EMPLOYEE_IDS_PARAM = "employee_ids";
-	private static final String OFFICE_IDS_PARAM = "office_ids";
+	private static final String ID_PARAM = "id";
 	private static final String ROWS_NUMBER = "rows_number";
 
 	private EmployeeDAOHibernate() {
@@ -50,18 +49,13 @@ final class EmployeeDAOHibernate implements EmployeeDAO {
 		List<Long> officeIds = session.getNamedQuery(CORRESPOND_OFFICE_IDS)
 				.setParameterList(EMPLOYEE_IDS_PARAM, employeeIds).list();
 		// load in session correspond offices
-		session.getNamedQuery(CORRESPOND_OFFICES)
-				.setParameterList(OFFICE_IDS_PARAM, officeIds).list();
+		session.createCriteria(Office.class)
+				.add(Restrictions.in(ID_PARAM, officeIds)).list();
 		// get employees
-		List<Employee> employees = null; /*
-										 * =
-										 * session.getNamedQuery(EMPLOYEE_LIST)
-										 * .setParameterList(EMPLOYEE_IDS_PARAM,
-										 * employeeIds).list();
-										 */
-
-		employees = session.createCriteria(Employee.class)
-				.add(Restrictions.in("id", employeeIds)).list();
+		List<Employee> employees = session.createCriteria(Employee.class)
+				.add(Restrictions.in(ID_PARAM, employeeIds))
+				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		System.out.println(employees.size());
 
 		tx.commit();
 		return employees;

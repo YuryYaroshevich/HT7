@@ -14,6 +14,7 @@
 	<h2>Employee list</h2>
 	<table>
 		<tr>
+			<th rowspan="2">Index</th>
 			<th rowspan="2">Name</th>
 			<th rowspan="2">Address</th>
 			<th colspan="6">Offices</th>
@@ -23,40 +24,44 @@
 			<th>City</th>
 			<th>Country</th>
 			<th>Address</th>
-			<th>Number of employees<br>for
-				given company office
+			<th>Number of employees<br>for given company office
 			</th>
 			<th>Position</th>
 
 		</tr>
-		<jstl:forEach var="employee" items="${employees}">
+		<jstl:forEach var="employee" items="${employees}" varStatus="counter">
 			<tr>
 				<jstl:choose>
 					<jstl:when test="${fn:length(employee.jobs) == 1}">
-						<td>${employee.firstName} ${employee.lastName}</td>
-						<td>${employee.address}</td>
+						<td>${counter.count}</td>
+						<td>${employee.id} ${employee.firstName} ${employee.lastName}</td>
+						<td>${employee.address.id} ${employee.address}</td>
 					</jstl:when>
 					<jstl:otherwise>
-						<td rowspan="${fn:length(employee.jobs)}">${employee.firstName}
-							${employee.lastName}</td>
-						<td rowspan="${fn:length(employee.jobs)}">${employee.address}</td>
+						<td rowspan="${fn:length(employee.jobs)}">${counter.count}</td>
+						<td rowspan="${fn:length(employee.jobs)}">${employee.id}
+							${employee.firstName} ${employee.lastName}</td>
+						<td rowspan="${fn:length(employee.jobs)}">${employee.address.id}
+							${employee.address}</td>
 					</jstl:otherwise>
 				</jstl:choose>
 				<jstl:forEach var="job" items="${employee.jobs}" varStatus="status">
 					<jstl:if test="${status.index != 0}">
-						</tr><tr>
-					</jstl:if>
-					<td>${job.key.company}</td>
-					<td>${job.key.address.city}</td>
-					<td>${job.key.address.city.country}</td>
-					<td>${job.key.address}</td>
-					<td>${job.key.numberOfEmployees}</td>
-					<td>${job.value}</td> 
-					<jstl:if test="${(status.index != 0) && (!status.last)}">
-						</tr>
-					</jstl:if>
-				</jstl:forEach>	
 			</tr>
+			<tr>
+				</jstl:if>
+				<td>${job.key.company.id} ${job.key.company}</td>
+				<td>${job.key.address.city.id} ${job.key.address.city}</td>
+				<td>${job.key.address.city.country.id}
+					${job.key.address.city.country}</td>
+				<td>${job.key.address.id} ${job.key.address}</td>
+				<td>${job.key.numberOfEmployees}</td>
+				<td>${job.value}</td>
+				<jstl:if test="${(status.index != 0) && (!status.last)}">
+			</tr>
+			</jstl:if>
+		</jstl:forEach>
+		</tr>
 		</jstl:forEach>
 	</table>
 </body>
