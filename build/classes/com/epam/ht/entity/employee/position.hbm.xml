@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="com.epam.ht.entity.employee">
+	<class name="Position" table="Position" lazy="false">
+		<id name="id" column="position_id" type="long">
+			<generator class="increment" />
+		</id>
+		<property name="position" column="position" not-null="true" />
+	</class>
+</hibernate-mapping>        

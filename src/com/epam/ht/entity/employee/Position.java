@@ -2,19 +2,29 @@ package com.epam.ht.entity.employee;
 
 import java.io.Serializable;
 
-// Job position
+//Job position
 public class Position implements Serializable {
 	private static final long serialVersionUID = -2082971136281218506L;
-	
+
+	private long id;
+
 	private String position;
-		
+
 	public Position() {
 	}
-	
+
 	public Position(String position) {
-		this.position = position;
+		setPosition(position);
 	}
 
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+	
 	public String getPosition() {
 		return position;
 	}
@@ -22,7 +32,8 @@ public class Position implements Serializable {
 	public void setPosition(String position) {
 		this.position = position;
 	}
-	
+
+	@Override
 	public String toString() {
 		return position;
 	}
@@ -40,7 +51,7 @@ public class Position implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
-		}	
+		}
 		if ((obj == null) || (getClass() != obj.getClass())) {
 			return false;
 		}
@@ -54,5 +65,5 @@ public class Position implements Serializable {
 		}
 		return true;
 	}
-	
+
 }

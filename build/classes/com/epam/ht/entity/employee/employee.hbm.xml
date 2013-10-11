@@ -17,9 +17,10 @@
 			<key column="EMPLOYEE_ID" />
 			<map-key-many-to-many column="OFFICE_ID"
 				class="com.epam.ht.entity.office.Office" />
-			<composite-element class="Position">
+			<many-to-many column="POSITION_ID" class="Position" />
+			<!-- <composite-element class="Position">
 				<property name="position" column="POSITION" />
-			</composite-element>
+			</composite-element> -->
 		</map>
 	</class>
 

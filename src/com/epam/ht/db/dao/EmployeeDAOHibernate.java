@@ -6,7 +6,6 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 import com.epam.ht.entity.employee.Employee;
@@ -55,7 +54,6 @@ final class EmployeeDAOHibernate implements EmployeeDAO {
 		List<Employee> employees = session.createCriteria(Employee.class)
 				.add(Restrictions.in(ID_PARAM, employeeIds))
 				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
-		System.out.println(employees.size());
 
 		tx.commit();
 		return employees;

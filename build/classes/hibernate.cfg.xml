@@ -34,6 +34,7 @@
 		<mapping resource="com/epam/ht/entity/company/company.hbm.xml" />
 		<mapping resource="com/epam/ht/entity/country/country.hbm.xml" />
 		<mapping resource="com/epam/ht/entity/employee/employee.hbm.xml" />
+		<mapping resource="com/epam/ht/entity/employee/position.hbm.xml" />
 		<mapping resource="com/epam/ht/entity/office/office.hbm.xml" />
 	</session-factory>
 </hibernate-configuration> 
